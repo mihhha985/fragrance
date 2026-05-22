@@ -1,0 +1,26 @@
+[
+	{
+		"uid": "terra",
+		"title": "Terra",
+		"description": "Terra is a tribute to nature's quiet power. Deep woods and herbal notes evoke the scent of earth after rain—calm, grounded, and refined. For the man who commands attention without effort, Terra embodies the beauty of balance.",
+		"mood": "grounded",
+		"scentProfile": "woody",
+		"price": 11000
+	},
+	{
+		"uid": "ignis",
+		"title": "Ignis",
+		"description": "Forged in fire, Ignis is a bold statement of power and poise. Smoldering spices and rich woods create an intense, magnetic presence. For the man whose quiet confidence speaks volumes, this fragrance captures fire’s raw allure—uncompromising and unforgettable.",
+		"mood": "bold",
+		"scentProfile": "spicy",
+		"price": 12000
+	},
+	{
+		"uid": "aqua",
+		"title": "Aqua",
+		"description": "Cool and invigorating, Aqua channels the untamed spirit of the ocean. Crisp aquatic notes flow over mineral woods, capturing the mystery of open water. As refreshing as a sea breeze yet as commanding as the tide, Aqua is for the man who moves with quiet strength.",
+		"mood": "refreshing",
+		"scentProfile": "fresh",
+		"price": 13000
+	}
+]
