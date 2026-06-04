@@ -38,7 +38,9 @@ function CallToAction() {
 					className="mx-auto mt-10 max-w-fit translate-y-10"
 					vars={{ opacity: 1, duration: 1 }}
 				>
-					<ButtonLink variant="primary">Start Quiz</ButtonLink>
+					<ButtonLink href="/quiz" variant="primary">
+						Start Quiz
+					</ButtonLink>
 				</FadeIn>
 			</div>
 		</Bounded>
