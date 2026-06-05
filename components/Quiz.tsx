@@ -5,11 +5,12 @@ import Question from "./Question";
 import { gsap } from "gsap";
 import { quizQuestions } from "@/types/quiz";
 import type { Vote, FragranceType } from "@/types/quiz";
+import { Result } from "./Result";
 
 type QuizStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
 
 function Quiz() {
-	const [status, setStatus] = useState<QuizStatus>("NOT_STARTED");
+	const [status, setStatus] = useState<QuizStatus>("COMPLETED");
 	const [currentQuestion, setCurrentQuestion] = useState<number>(0);
 	const [votes, setVotes] = useState<Vote[]>([]);
 	const startScreenRef = useRef<HTMLDivElement>(null);
@@ -64,16 +65,22 @@ function Quiz() {
 		}
 	};
 
-	const copletedVote = useMemo(() => {
+	const totalVote: Vote = useMemo(() => {
 		return votes.reduce(
 			(acc, vote) => ({
 				Terra: acc.Terra + (vote.Terra || 0),
 				Ignis: acc.Ignis + (vote.Ignis || 0),
 				Aqua: acc.Aqua + (vote.Aqua || 0),
 			}),
-			{ Terra: 0, Ignis: 0, Aqua: 0 },
+			{ Terra: 0, Ignis: 3, Aqua: 0 },
 		);
 	}, [votes]);
+
+	const reset = () => {
+		setVotes([]);
+		setCurrentQuestion(0);
+		setStatus("NOT_STARTED");
+	};
 
 	return (
 		<>
@@ -93,14 +100,7 @@ function Quiz() {
 			)}
 
 			{status === "COMPLETED" && (
-				<div className="mx-auto max-w-4xl py-10 text-center">
-					<h2>Quiz Completed</h2>
-					<div>
-						<p>Aqua: {copletedVote.Aqua}</p>
-						<p>Ignis: {copletedVote.Ignis}</p>
-						<p>Terra: {copletedVote.Terra}</p>
-					</div>
-				</div>
+				<Result votes={totalVote} onRetakeQuiz={reset} />
 			)}
 		</>
 	);

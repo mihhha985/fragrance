@@ -25,8 +25,6 @@ function Question({
 		null,
 	);
 	const currentQuestion: QuizQuestion = quizQuestions[questionNumber - 1];
-	console.log("Curren Question", currentQuestion);
-	console.log("questionNumber", questionNumber);
 	if (!currentQuestion) {
 		return null;
 	}
