@@ -1,3 +1,4 @@
+import { getTranslator, type Locale } from "@/utils/i18n";
 import {
 	LuFlame,
 	LuLeaf,
@@ -27,16 +28,18 @@ const MOODS: Record<string, AttributeData> = {
 
 type FragranceAttributesProps = {
 	scentProfile: string;
+	locale: Locale;
 	mood: string;
 	className?: string;
 };
 
 function FragranceAttributes({
 	scentProfile,
+	locale,
 	mood,
 	className,
 }: FragranceAttributesProps) {
-	console.log(scentProfile, mood);
+	const t = getTranslator(locale);
 	const scentProfileData = SCENT_PROFILES[scentProfile];
 	const moodData = MOODS[mood];
 	if (!scentProfileData || !moodData) {
@@ -46,15 +49,15 @@ function FragranceAttributes({
 	return (
 		<div className={className}>
 			<p className="mb-2 text-base font-semibold text-gray-300 uppercase">
-				Features:
+				{t("Features:")}
 			</p>
 			<p className="flex items-center gap-2">
 				<scentProfileData.icon className="size-4" />
-				{scentProfileData.label}
+				{t(scentProfileData.label)}
 			</p>
 			<p className="flex items-center gap-2">
 				<moodData.icon className="size-4" />
-				{moodData.label}
+				{t(moodData.label)}
 			</p>
 		</div>
 	);

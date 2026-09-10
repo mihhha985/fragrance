@@ -1,28 +1,30 @@
+import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import { ReactNode } from "react";
-import Link from "next/link";
+import { TransitionLink as Link } from "./TransitionLink";
 import Image from "next/image";
 
-export const Footer = () => {
+export const Footer = ({ locale }: LocaleProps) => {
+	const t = getTranslator(locale);
 	return (
 		<footer aria-labelledby="footer-heading" className="footer bg-black py-16">
 			<h2 id="footer-heading" className="sr-only">
-				Footer
+				{t("Footer")}
 			</h2>
 			<div className="container mx-auto px-6">
 				<div className="grid gap-10 md:grid-cols-3">
-					<NavGroup title="Shop">
+					<NavGroup title={t("Shop")}>
 						<NavLink href="/fragrance/terra">Terra</NavLink>
-						<NavLink href="/fragrance/igni">Igni</NavLink>
+						<NavLink href="/fragrance/ignis">Ignis</NavLink>
 						<NavLink href="/fragrance/aqua">Aqua</NavLink>
 					</NavGroup>
 
-					<NavGroup title="About">
-						<NavLink href="#">Science</NavLink>
-						<NavLink href="#">Our Story</NavLink>
+					<NavGroup title={t("About")}>
+						<NavLink href="#">{t("Science")}</NavLink>
+						<NavLink href="#">{t("Our Story")}</NavLink>
 						<NavLink href="#">Côte Royale</NavLink>
 					</NavGroup>
 
-					<NavGroup title="Social">
+					<NavGroup title={t("Social")}>
 						<NavLink href="#">Instagram</NavLink>
 						<NavLink href="#">X (Twitter)</NavLink>
 						<NavLink href="#">Facebook</NavLink>
@@ -32,11 +34,12 @@ export const Footer = () => {
 				{/* Bottom footer */}
 				<div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-neutral-800 pt-8 md:flex-row">
 					<p className="text-center text-sm text-gray-400">
-						© {new Date().getFullYear()} Côte Royale Inc. All rights reserved
+						© {new Date().getFullYear()}{" "}
+						{t("Côte Royale Inc. All rights reserved")}
 					</p>
 					<Link
 						href="/"
-						aria-label="Côte Royale Home"
+						aria-label={t("Côte Royale Home")}
 						className="order-first md:order-0"
 					>
 						<Image
@@ -48,17 +51,17 @@ export const Footer = () => {
 						/>
 					</Link>
 					<ul
-						aria-label="Legal"
+						aria-label={t("Legal")}
 						className="flex flex-wrap justify-center gap-6 text-sm text-gray-400"
 					>
 						<li>
 							<Link href="#" className="hover:text-white">
-								Terms &amp; conditions
+								{t("Terms & conditions")}
 							</Link>
 						</li>
 						<li>
 							<Link href="#" className="hover:text-white">
-								Privacy Policy
+								{t("Privacy Policy")}
 							</Link>
 						</li>
 					</ul>
@@ -74,9 +77,9 @@ type NavGroupProps = {
 };
 
 const NavGroup = ({ title, children }: NavGroupProps) => (
-	<nav aria-labelledby={`${title.toLowerCase()}-heading`}>
+	<nav aria-labelledby={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}>
 		<h3
-			id={`${title.toLowerCase()}-heading`}
+			id={`${title.toLowerCase().replaceAll(" ", "-")}-heading`}
 			className="mb-6 text-xl font-medium"
 		>
 			{title}

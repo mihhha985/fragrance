@@ -1,4 +1,6 @@
+import { getTranslator, isLocale } from "@/utils/i18n";
 import Image from "next/image";
+import { ButtonLink } from "@/components/ButtonLink";
 import { notFound } from "next/navigation";
 import { Bounded } from "@/components/Bounded";
 import type { Metadata } from "next";
@@ -9,23 +11,35 @@ import { OtherFragrances } from "@/components/OtherFragrances";
 import data from "@/data/fragrance.json";
 import type { Fragrance } from "@/types/fragrance";
 
-export const metadata: Metadata = {
-	title: "Fragrance",
-	description: "Fragrance is a type of perfume that is used to scent the body.",
-	openGraph: {
-		title: "Fragrance",
-		description:
-			"Fragrance is a type of perfume that is used to scent the body.",
-		images: ["/terra-og-image.png"],
-	},
-};
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ lang: string; uid: string }>;
+}): Promise<Metadata> {
+	const { lang, uid } = await params;
+	if (!isLocale(lang)) notFound();
+	const fragrance = data.find((item) => item.uid === uid);
+	if (!fragrance) notFound();
+	const t = getTranslator(lang);
+	return {
+		title: `${fragrance.title} | Côte Royale`,
+		description: t(fragrance.description),
+		openGraph: {
+			title: fragrance.title,
+			description: t(fragrance.description),
+			images: [`/${uid}-og-image.png`],
+		},
+	};
+}
 
 export default async function FragrancePage({
 	params,
 }: {
-	params: Promise<{ uid: string }>;
+	params: Promise<{ uid: string; lang: string }>;
 }) {
-	const { uid } = await params;
+	const { uid, lang: locale } = await params;
+	if (!isLocale(locale)) notFound();
+	const t = getTranslator(locale);
 	const fragrances = data as Fragrance[];
 	const fragrance = fragrances.find((fragrance) => fragrance.uid === uid);
 	if (!fragrance) {
@@ -38,7 +52,7 @@ export default async function FragrancePage({
 				<div className="relative mb-14 flex justify-center pb-10">
 					<Image
 						src={`/${fragrance.uid}-bottle.png`}
-						alt="Fragrance"
+						alt={t("Fragrance")}
 						width={600}
 						height={600}
 						priority
@@ -46,7 +60,7 @@ export default async function FragrancePage({
 					/>
 					<Image
 						src={`/${fragrance.uid}-bottle.png`}
-						alt="Fragrance"
+						alt={t("Fragrance")}
 						width={600}
 						height={600}
 						priority
@@ -59,25 +73,26 @@ export default async function FragrancePage({
 					</h1>
 
 					<div className="space-y-6">
-						<p className="text-md font-semibold">Eau de Parfum Spray</p>
+						<p className="text-md font-semibold">{t("Eau de Parfum Spray")}</p>
 
-						<p>{fragrance.description}</p>
+						<p>{t(fragrance.description)}</p>
 
 						<FragranceAttributes
+							locale={locale}
 							mood={fragrance.mood}
 							scentProfile={fragrance.scentProfile}
 						/>
 						<p className="mt-10 text-3xl font-light">
-							{formatPrice(fragrance.price)}
+							{formatPrice(fragrance.price, locale)}
 						</p>
 
-						<button className="w-full bg-white py-3 font-medium text-black uppercase transition duration-200 hover:bg-neutral-200">
-							Add to Cart
-						</button>
+						<ButtonLink productUid={uid} className="w-full justify-center">
+							{t("Add to Cart")}
+						</ButtonLink>
 
 						<div className="flex items-center gap-4 border-t border-neutral-700 pt-6">
 							<a href="#" className="hover:text-neutral-300">
-								763 total reviews
+								{t("763 total reviews")}
 							</a>
 
 							<div className="flex">
@@ -92,7 +107,7 @@ export default async function FragrancePage({
 				</div>
 			</div>
 
-			<OtherFragrances currentFragranceUid={uid} />
+			<OtherFragrances currentFragranceUid={uid} locale={locale} />
 		</Bounded>
 	);
 }

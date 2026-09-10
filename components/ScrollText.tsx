@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "./LocaleProvider";
 import { useRef } from "react";
 import { Bounded } from "./Bounded";
 import clsx from "clsx";
@@ -7,11 +8,11 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-interface ScrollTextProps {}
 const text =
 	"Côte Royale is designed for the man who commands attention without seeking it.";
-function ScrollText(props: ScrollTextProps) {
-	const words = text.split(" ");
+function ScrollText() {
+	const { t } = useI18n();
+	const words = t(text).split(" ");
 	const componentRef = useRef<HTMLDivElement>(null);
 	const textRef = useRef<HTMLParagraphElement>(null);
 	const contentRef = useRef<HTMLDivElement>(null);
@@ -83,7 +84,7 @@ function ScrollText(props: ScrollTextProps) {
 						"mb-2 text-center font-sans text-sm tracking-wider text-neutral-200 uppercase md:mb-8 md:text-base",
 					)}
 				>
-					Defining Luxury
+					{t("Defining Luxury")}
 				</h3>
 
 				<div ref={contentRef} className="text-center">

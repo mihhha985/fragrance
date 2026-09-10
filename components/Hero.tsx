@@ -1,3 +1,4 @@
+import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import Image from "next/image";
 import { Bounded } from "./Bounded";
 import { FadeIn } from "./FadeIn";
@@ -8,7 +9,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ButtonLink } from "./ButtonLink";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-function Hero() {
+function Hero({ locale }: LocaleProps) {
+	const t = getTranslator(locale);
 	return (
 		<Bounded
 			as="header"
@@ -35,25 +37,27 @@ function Hero() {
 					duration={1.7}
 					staggerAmount={0.3}
 					as="h1"
-					field={["Effortless", "Elegance"]}
+					field={t("Effortless Elegance").split(" ")}
 					id="hero-title"
-					className="font-display max-w-xl text-6xl leading-none text-neutral-50 md:text-7xl lg:text-8xl"
+					className={`font-display max-w-xl leading-none text-neutral-50 ${locale === "ru" ? "text-4xl sm:text-5xl md:text-6xl lg:text-7xl" : "text-6xl md:text-7xl lg:text-8xl"}`}
 				/>
 				<FadeIn
 					vars={{ opacity: 1, delay: 1, duration: 1.3 }}
 					className="mt-6 max-w-md translate-y-10 text-lg text-neutral-100"
 				>
 					<p>
-						An expression of quiet luxury, Côte Royale is designed for the man
-						who commands attention without seeking it. A reflection of nature’s
-						raw beauty.
+						{t(
+							"An expression of quiet luxury, Côte Royale is designed for the man who commands attention without seeking it. A reflection of nature’s raw beauty.",
+						)}
 					</p>
 				</FadeIn>
 				<FadeIn
 					className="mt-10 translate-y-10"
 					vars={{ opacity: 1, delay: 1.7, duration: 1.1 }}
 				>
-					<ButtonLink variant="secondary">Shop Now</ButtonLink>
+					<ButtonLink href="/fragrance/terra" variant="secondary">
+						{t("Shop Now")}
+					</ButtonLink>
 				</FadeIn>
 			</div>
 		</Bounded>

@@ -10,7 +10,7 @@ import { Result } from "./Result";
 type QuizStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED";
 
 function Quiz() {
-	const [status, setStatus] = useState<QuizStatus>("COMPLETED");
+	const [status, setStatus] = useState<QuizStatus>("NOT_STARTED");
 	const [currentQuestion, setCurrentQuestion] = useState<number>(0);
 	const [votes, setVotes] = useState<Vote[]>([]);
 	const startScreenRef = useRef<HTMLDivElement>(null);
@@ -56,7 +56,6 @@ function Quiz() {
 			return updated;
 		});
 
-		console.log(votes);
 		//check is completed
 		if (currentQuestion === quizQuestions.length - 1) {
 			setStatus("COMPLETED");
@@ -72,7 +71,7 @@ function Quiz() {
 				Ignis: acc.Ignis + (vote.Ignis || 0),
 				Aqua: acc.Aqua + (vote.Aqua || 0),
 			}),
-			{ Terra: 0, Ignis: 3, Aqua: 0 },
+			{ Terra: 0, Ignis: 0, Aqua: 0 },
 		);
 	}, [votes]);
 

@@ -1,3 +1,4 @@
+import { useI18n } from "./LocaleProvider";
 import { Fragment, useState } from "react";
 import Image from "next/image";
 import { quizQuestions } from "@/types/quiz";
@@ -20,16 +21,15 @@ function Question({
 	onAnswerSelected,
 	onBack,
 }: QuestionProps) {
+	const { t } = useI18n();
 	const [answers, setAnswers] = useState<AnsweOption[]>([]);
 	const [selectedOption, setSelectedOption] = useState<FragranceType | null>(
 		null,
 	);
 	const currentQuestion: QuizQuestion = quizQuestions[questionNumber - 1];
-	if (!currentQuestion) {
-		return null;
-	}
 
 	useGSAP(() => {
+		if (!currentQuestion) return;
 		setSelectedOption(null);
 
 		gsap.set(".answer-option", {
@@ -65,6 +65,7 @@ function Question({
 			ease: "power3.out",
 		});
 	}, [questionNumber]);
+	if (!currentQuestion) return null;
 
 	const handleNext = () => {
 		if (selectedOption) {
@@ -141,22 +142,22 @@ function Question({
 			<div className="question-content translate-y-2.5 opacity-0">
 				<div className="mb-14">
 					<p className="mb-3 tracking-widest uppercase">
-						Step {questionNumber}
+						{t("Step")} {questionNumber}
 					</p>
 					<h2 className="font-display mb-6 text-4xl text-balance md:text-5xl lg:text-6xl">
-						{currentQuestion.question}
+						{t(currentQuestion.question)}
 					</h2>
 				</div>
 
 				<fieldset className="mb-14">
-					<legend className="sr-only">{currentQuestion.question}</legend>
+					<legend className="sr-only">{t(currentQuestion.question)}</legend>
 					<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{answers.map((answer, index) => (
 							<Answer
 								key={index}
 								imageField={answer.image || "/placeholder.jpg"}
 								value={answer.value}
-								question={answer.text}
+								question={t(answer.text)}
 								index={index}
 								checked={selectedOption === answer.value}
 								onChange={() => handleSelectAnswer(answer.value)}
@@ -170,7 +171,7 @@ function Question({
 						onClick={handleBack}
 						className="cursor-pointer border border-neutral-700 px-4 py-2 tracking-widest uppercase"
 					>
-						Back
+						{t("Back")}
 					</button>
 
 					<div className="text-center">
@@ -182,7 +183,7 @@ function Question({
 						className="cursor-pointer bg-white px-4 py-2 tracking-widest text-neutral-950 uppercase disabled:cursor-not-allowed disabled:opacity-50"
 						disabled={!selectedOption}
 					>
-						Next
+						{t("Next")}
 					</button>
 				</div>
 			</div>
@@ -216,7 +217,7 @@ const Answer = ({
 			<input
 				type="radio"
 				id={optionId}
-				name={question}
+				name="fragrance-answer"
 				value={value}
 				checked={checked}
 				onChange={onChange}

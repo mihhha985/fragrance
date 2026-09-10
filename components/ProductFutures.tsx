@@ -1,12 +1,14 @@
+import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import Image from "next/image";
 import { Bounded } from "./Bounded";
 import { FadeIn } from "./FadeIn";
 import { formatPrice } from "@/utils/formatters";
 import { ButtonLink } from "./ButtonLink";
 
-function ProductFutures() {
-	const price = 11000;
-	const formattedPrice = formatPrice(price);
+function ProductFutures({ locale }: LocaleProps) {
+	const t = getTranslator(locale);
+	const price = 12000;
+	const formattedPrice = formatPrice(price, locale);
 
 	return (
 		<Bounded
@@ -21,7 +23,7 @@ function ProductFutures() {
 				>
 					<Image
 						src="/grid-picture.jpg"
-						alt="Product Futures"
+						alt={t("Product Futures")}
 						width={1000}
 						height={1000}
 						className="h-auto w-full object-cover"
@@ -34,12 +36,12 @@ function ProductFutures() {
 						className="translate-y-16 space-y-6 self-start bg-white/10 p-10 opacity-0"
 					>
 						<h2 className="font-sans text-3xl leading-tight font-semibold lg:text-4xl">
-							Powerful Simplicity.
+							{t("Powerful Simplicity.")}
 						</h2>
 						<p className="max-w-lg text-base text-gray-300">
-							An expression of quiet luxury, Côte Royale is designed for the man
-							who commands attention without seeking it. A reflection of
-							nature’s raw beauty, redefined for today.
+							{t(
+								"An expression of quiet luxury, Côte Royale is designed for the man who commands attention without seeking it. A reflection of nature’s raw beauty, redefined for today.",
+							)}
 						</p>
 					</FadeIn>
 
@@ -49,7 +51,7 @@ function ProductFutures() {
 					>
 						<Image
 							src="/ignis-bottle.png"
-							alt="Product Futures"
+							alt={t("Product Futures")}
 							width={1000}
 							height={1000}
 							className="mx-auto -mt-10 w-full -rotate-12 md:-mt-20"
@@ -57,8 +59,10 @@ function ProductFutures() {
 						<div className="flex justify-between p-10 pt-4">
 							<div className="space-y-1 font-sans">
 								<h3 className="text-2xl">Ignis</h3>
-								<p className="mt-2 text-gray-400">Eau de Parfum</p>
-								<ButtonLink variant="secondary">Shop Now</ButtonLink>
+								<p className="mt-2 text-gray-400">{t("Eau de Parfum")}</p>
+								<ButtonLink href="/fragrance/ignis" variant="secondary">
+									{t("Shop Now")}
+								</ButtonLink>
 							</div>
 							<p>{formattedPrice}</p>
 						</div>

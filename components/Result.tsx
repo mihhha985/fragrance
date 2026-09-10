@@ -1,7 +1,8 @@
 "use client";
+import { useI18n } from "./LocaleProvider";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
-import type { FragranceType, Vote, Winner } from "@/types/quiz";
+import type { FragranceType, Vote } from "@/types/quiz";
 import { HiStar } from "react-icons/hi";
 import { ButtonLink } from "./ButtonLink";
 import { useGSAP } from "@gsap/react";
@@ -15,7 +16,7 @@ type ResultProps = {
 };
 
 export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
-	console.log("Total:", votes);
+	const { t } = useI18n();
 	const determineWinners = (votes: Vote): FragranceType => {
 		const maxVote = Math.max(votes.Terra, votes.Ignis, votes.Aqua);
 
@@ -44,7 +45,7 @@ export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
 				y: 0,
 				duration: 1,
 				stagger: 0.5,
-				ease: "power2.",
+				ease: "power2.out",
 			},
 			"-=0.4",
 		).to(
@@ -64,13 +65,14 @@ export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
 			vars={{ duration: 0.8 }}
 		>
 			<div className="mb-10">
-				<p className="mb-3 tracking-widest uppercase">Result</p>
+				<p className="mb-3 tracking-widest uppercase">{t("Result")}</p>
 				<h2 className="font-display mb-6 text-5xl md:text-6xl">
-					Your Personalized Recommendation
+					{t("Your Personalized Recommendation")}
 				</h2>
 				<p className="mb-14 text-lg text-gray-300">
-					A unique selection of fragrances that are most suited to you and your
-					personal taste
+					{t(
+						"A unique selection of fragrances that are most suited to you and your personal taste",
+					)}
 				</p>
 			</div>
 
@@ -91,11 +93,15 @@ export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
 						<span className="inline-flex items-center gap-1 text-white">
 							<HiStar />
 							<span>4.8</span>
-							<span className="ml-3 text-gray-400">(120 Reviews)</span>
+							<span className="ml-3 text-gray-400">{t("(120 Reviews)")}</span>
 						</span>
 
-						<h3 className="font-display">{winner} Eau De Parfum</h3>
-						<ButtonLink>Buy now</ButtonLink>
+						<h3 className="font-display">
+							{winner} {t("Eau De Parfum")}
+						</h3>
+						<ButtonLink productUid={winner.toLowerCase()}>
+							{t("Buy now")}
+						</ButtonLink>
 					</div>
 				</div>
 			</div>
@@ -104,7 +110,7 @@ export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
 				onClick={onRetakeQuiz}
 				className="mb-12 inline-block cursor-pointer border border-white px-12 py-4 font-extrabold tracking-wider text-white uppercase"
 			>
-				Retake Quiz
+				{t("Retake Quiz")}
 			</button>
 		</FadeIn>
 	);

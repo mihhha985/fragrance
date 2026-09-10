@@ -1,11 +1,11 @@
-const priceFormatter = Intl.NumberFormat("en-US", {
-	style: "currency",
-	currency: "USD",
-	minimumFractionDigits: 0,
-});
+import type { Locale } from "./i18n";
 
-export const formatPrice = (price: number | null | undefined): string => {
-	if (!price) return "$0";
-	const priceInDollars = price / 100;
-	return priceFormatter.format(priceInDollars);
-};
+export const formatPrice = (
+	price: number | null | undefined,
+	locale: Locale = "en",
+): string =>
+	Intl.NumberFormat(locale === "ru" ? "ru-RU" : "en-US", {
+		style: "currency",
+		currency: "USD",
+		minimumFractionDigits: 0,
+	}).format((price ?? 0) / 100);

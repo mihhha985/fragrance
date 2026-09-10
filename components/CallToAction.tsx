@@ -1,9 +1,11 @@
+import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import { Bounded } from "./Bounded";
 import { FadeIn } from "./FadeIn";
 import RevealText from "./RevealText";
 import { ButtonLink } from "./ButtonLink";
 
-function CallToAction() {
+function CallToAction({ locale }: LocaleProps) {
+	const t = getTranslator(locale);
 	return (
 		<Bounded
 			as="section"
@@ -17,11 +19,11 @@ function CallToAction() {
 					className="translate-y-2 text-sm font-light tracking-[.2em] uppercase"
 					vars={{ opacity: 1, duration: 0.8, delay: 0.4 }}
 				>
-					Fragrance Quiz
+					{t("Fragrance Quiz")}
 				</FadeIn>
 				<RevealText
 					id="call-to-action-title"
-					field={["The", "Cote Royale", "Fragrance", "Finder"]}
+					field={t("The Cote Royale Fragrance Finder").split(" ")}
 					duration={0.8}
 					align="center"
 					staggerAmount={0.1}
@@ -32,14 +34,14 @@ function CallToAction() {
 					className="mx-auto max-w-2xl translate-y-2 text-lg text-balance text-gray-300"
 					vars={{ opacity: 1, duration: 0.8, delay: 0.4 }}
 				>
-					<p>Find your perfect scent with our personalized quiz.</p>
+					<p>{t("Find your perfect scent with our personalized quiz.")}</p>
 				</FadeIn>
 				<FadeIn
 					className="mx-auto mt-10 max-w-fit translate-y-10"
 					vars={{ opacity: 1, duration: 1 }}
 				>
 					<ButtonLink href="/quiz" variant="primary">
-						Start Quiz
+						{t("Start Quiz")}
 					</ButtonLink>
 				</FadeIn>
 			</div>

@@ -6,6 +6,10 @@
 }
 
 @layer base {
+	html[lang="ru"] h1,
+	html[lang="ru"] h2 {
+		overflow-wrap: anywhere;
+	}
 	body {
 		@apply bg-neutral-950 font-sans text-neutral-50;
 	}
@@ -22,6 +26,16 @@
 	p {
 		@apply font-sans;
 	}
+}
+
+/* Gambarino has no Cyrillic glyphs; keep Russian display text in a serif face. */
+html[lang="ru"] {
+	--font-gambarino: Georgia, "Times New Roman", serif;
+}
+
+html[lang="ru"] :is(h1, h2, h3, h4, h5, h6):not(.font-sans),
+html[lang="ru"] .font-display {
+	font-family: Georgia, "Times New Roman", serif;
 }
 
 @layer components {

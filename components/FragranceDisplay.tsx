@@ -1,10 +1,12 @@
+import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import { BsPlus } from "react-icons/bs";
 import Image from "next/image";
 import { FadeIn } from "./FadeIn";
 import { ButtonLink } from "./ButtonLink";
 import { FragranceAttributes } from "./FragranceAttributes";
 
-function FragranceDisplay() {
+function FragranceDisplay({ locale }: LocaleProps) {
+	const t = getTranslator(locale);
 	return (
 		<FadeIn
 			vars={{ opacity: 1, duration: 2.5 }}
@@ -13,7 +15,7 @@ function FragranceDisplay() {
 		>
 			<Image
 				src="/terra-ad.png"
-				alt="Fragrance 1"
+				alt={t("Fragrance 1")}
 				quality={75}
 				sizes="80vw"
 				fill
@@ -27,24 +29,26 @@ function FragranceDisplay() {
 				<div className="max-w-md">
 					<h3 className="mb-3 text-5xl md:text-6xl lg:text-7xl">Terra</h3>
 					<p className="mb-8 text-base font-semibold text-gray-300">
-						Eau de Parfum
+						{t("Eau de Parfum")}
 					</p>
 					<p className="mb-10 text-lg text-gray-300">
-						Rooted in strength, Terra is a tribute to nature’s quiet power. Deep
-						woods and herbal notes evoke the scent of earth after rain—calm,
-						grounded, and refined. For the man who commands attention without
-						effort, Terra embodies the beauty of balance.
+						{t(
+							"Rooted in strength, Terra is a tribute to nature’s quiet power. Deep woods and herbal notes evoke the scent of earth after rain—calm, grounded, and refined. For the man who commands attention without effort, Terra embodies the beauty of balance.",
+						)}
 					</p>
 					<FragranceAttributes
-						scentProfile="spicy"
-						mood="bold"
+						locale={locale}
+						scentProfile="woody"
+						mood="grounded"
 						className="mb-10"
 					/>
 					<div className="flex flex-wrap gap-4">
-						<ButtonLink variant="secondary">Learn More</ButtonLink>
-						<ButtonLink variant="primary">
+						<ButtonLink href="/fragrance/terra" variant="secondary">
+							{t("Learn More")}
+						</ButtonLink>
+						<ButtonLink productUid="terra" variant="primary">
 							<BsPlus />
-							Buy Now
+							{t("Buy Now")}
 						</ButtonLink>
 					</div>
 				</div>
