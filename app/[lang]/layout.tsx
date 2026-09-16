@@ -1,4 +1,4 @@
-import type Metadata from "next";
+import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import localFont from "next/font/local";
 import { Footer } from "@/components/Footer";
