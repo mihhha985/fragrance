@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type Metadata from "next";
 import { Raleway } from "next/font/google";
 import localFont from "next/font/local";
 import { Footer } from "@/components/Footer";
@@ -30,9 +30,10 @@ export async function generateMetadata({
 	if (!isLocale(lang)) notFound();
 	const t = getTranslator(lang);
 	return {
-		title: "Cote Royale",
+		metadataBase: new URL(process.env.SITE_URL ?? "http://localhost:3003"),
+		title: "Côte Royale",
 		description: t(
-			"Discover Cote Royale: refined fragrances inspired by earth, fire and water.",
+			"Discover Côte Royale: refined fragrances inspired by earth, fire and water.",
 		),
 		icons: {
 			icon: "/icon.svg",

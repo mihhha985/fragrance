@@ -7,7 +7,6 @@ import { HiStar } from "react-icons/hi";
 import { ButtonLink } from "./ButtonLink";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-//import { type Fragrance, fragranceData } from "@/types/fragrance";
 gsap.registerPlugin(useGSAP);
 
 type ResultProps = {

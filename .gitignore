@@ -17,8 +17,8 @@
 /.next/
 /out/
 
-# prisma composer
-/.prisma-composer/
+# order data
+/.runtime/
 
 # production
 /build
@@ -38,6 +38,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+.vscode
 
 # typescript
 *.tsbuildinfo

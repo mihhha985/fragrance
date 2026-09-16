@@ -30,9 +30,9 @@ export default async function TermsPage({
 			eyebrow={t("Legal")}
 			title={t("Terms & conditions")}
 			intro={t(
-				"These terms govern your use of the Côte Royale website and its demo shopping experience.",
+				"These terms govern your use of the Côte Royale website and its shopping experience.",
 			)}
-			updated={t("Last updated: September 10, 2026")}
+			updated={t("Last updated: September 16, 2026")}
 			sections={[
 				{
 					title: t("Using this website"),
@@ -43,10 +43,10 @@ export default async function TermsPage({
 					],
 				},
 				{
-					title: t("Demo orders"),
+					title: t("Orders"),
 					paragraphs: [
 						t(
-							"The checkout experience is a demonstration. No payment is taken, no order is fulfilled and no delivery or notification is arranged.",
+							"Orders submitted through checkout are recorded for processing. No online payment is taken, and no automatic notification is sent.",
 						),
 					],
 				},

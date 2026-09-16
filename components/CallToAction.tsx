@@ -23,7 +23,7 @@ function CallToAction({ locale }: LocaleProps) {
 				</FadeIn>
 				<RevealText
 					id="call-to-action-title"
-					field={t("The Cote Royale Fragrance Finder").split(" ")}
+					field={t("The Côte Royale Fragrance Finder").split(" ")}
 					duration={0.8}
 					align="center"
 					staggerAmount={0.1}

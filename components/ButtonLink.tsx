@@ -24,7 +24,7 @@ function ButtonLink({
 	const router = useRouter();
 	const { locale } = useI18n();
 	const classes = clsx(
-		"flex w-fit cursor-pointer items-center gap-1 px-6 py-3 text-base leading-none font-bold tracking-wider uppercase transition-colors duration-300",
+		"flex w-fit cursor-pointer items-center gap-1 px-6 py-3 text-base leading-none font-bold tracking-wider uppercase text-nowrap transition-colors duration-300",
 		variant === "primary" &&
 			"bg-neutral-50 text-neutral-950 hover:bg-neutral-300",
 		variant === "secondary" &&

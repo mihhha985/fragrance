@@ -11,6 +11,7 @@ export function proxy(request: NextRequest) {
 			: preferredLocale(request.headers.get("accept-language"));
 	const url = request.nextUrl.clone();
 	url.pathname = `/${locale}${url.pathname === "/" ? "" : url.pathname}`;
+	if (request.nextUrl.pathname === "/thank") return NextResponse.rewrite(url);
 	return NextResponse.redirect(url);
 }
 

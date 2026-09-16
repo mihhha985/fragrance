@@ -34,13 +34,13 @@ export default async function PrivacyPage({
 			intro={t(
 				"This policy explains what information may be processed when you use the Côte Royale website.",
 			)}
-			updated={t("Last updated: September 10, 2026")}
+			updated={t("Last updated: September 16, 2026")}
 			sections={[
 				{
 					title: t("Information we collect"),
 					paragraphs: [
 						t(
-							"We collect only the information you choose to enter while using the site, such as the details supplied in the demo checkout form.",
+							"We collect the information you provide during checkout, including your contact and delivery details and the contents of your order.",
 						),
 						t(
 							"We may also receive basic technical information, including browser type, device information and pages visited, to keep the website reliable and secure.",
@@ -51,10 +51,10 @@ export default async function PrivacyPage({
 					title: t("How we use information"),
 					paragraphs: [
 						t(
-							"Information is used to operate and improve the website, respond to requests and protect the service from misuse.",
+							"Information is used to process orders, arrange delivery, respond to requests, operate and improve the website, and protect the service from misuse.",
 						),
 						t(
-							"Demo checkout details are not saved, sent to a payment provider or used to arrange delivery.",
+							"Checkout details are stored on the order server. They are not sent to a payment provider, and no automatic notification is sent.",
 						),
 					],
 				},

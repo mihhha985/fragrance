@@ -13,7 +13,7 @@ export async function generateMetadata({
 	if (!isLocale(lang)) notFound();
 	const t = getTranslator(lang);
 	return {
-		title: t("Cote Royale Fragrance Finder"),
+		title: t("Côte Royale Fragrance Finder"),
 		description: t(
 			"Discover the fragrance crafted for you. Take our short quiz to uncover which Côte Royale scent aligns with your character, energy, and the impression you want to leave behind.",
 		),
@@ -23,7 +23,7 @@ export async function generateMetadata({
 	};
 }
 
-function page() {
+function QuizPage() {
 	return (
 		<Bounded
 			as="section"
@@ -34,4 +34,4 @@ function page() {
 	);
 }
 
-export default page;
+export default QuizPage;

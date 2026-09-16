@@ -3,7 +3,7 @@ import { Link } from "next-view-transitions";
 import { useI18n } from "./LocaleProvider";
 import { localizedPath } from "@/utils/i18n";
 
-export type TransitionLinkProps = {
+type TransitionLinkProps = {
 	href: string;
 	children?: React.ReactNode;
 	className?: string;

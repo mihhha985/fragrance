@@ -1,9 +1,9 @@
 export type FragranceType = "Terra" | "Ignis" | "Aqua";
 
-export type AnsweOption = {
+export type AnswerOption = {
 	text: string;
 	value: FragranceType;
-	image?: string;
+	image: string;
 };
 
 export type Vote = {
@@ -12,16 +12,10 @@ export type Vote = {
 	Aqua: number;
 };
 
-export type Winner = {
-	fragranceType: FragranceType;
-	title: string;
-	uid?: string;
-};
-
 export type QuizQuestion = {
 	id: number;
 	question: string;
-	options: AnsweOption[];
+	options: AnswerOption[];
 };
 
 export const quizQuestions = [
@@ -30,7 +24,7 @@ export const quizQuestions = [
 		question: "What scents do you prefer?",
 		options: [
 			{
-				text: "Cedar wood, Sandal wood",
+				text: "Cedarwood, sandalwood",
 				value: "Terra",
 				image: "/cedarwood.jpg",
 			},
@@ -69,10 +63,10 @@ export const quizQuestions = [
 	},
 	{
 		id: 3,
-		question: "What's Your Style?",
+		question: "What's your style?",
 		options: [
 			{
-				text: "Timeless and effortlessly cool - never trying too hard",
+				text: "Timeless and effortlessly cool—never trying too hard",
 				value: "Terra",
 				image: "/classic-style.jpg",
 			},
@@ -90,20 +84,20 @@ export const quizQuestions = [
 	},
 	{
 		id: 4,
-		question: "What’s Your Approach to Life?",
+		question: "What’s your approach to life?",
 		options: [
 			{
-				text: "Calculated and patient - let things come naturally",
+				text: "Calculated and patient—let things come naturally",
 				value: "Terra",
 				image: "/patient-vibe.jpg",
 			},
 			{
-				text: "All or nothing - make bold moves, no hesitation",
+				text: "All or nothing—make bold moves, no hesitation",
 				value: "Ignis",
 				image: "/bold-moves.jpg",
 			},
 			{
-				text: "Adapt and flow - never rigid, always ahead of the curve",
+				text: "Adapt and flow—never rigid, always ahead of the curve",
 				value: "Aqua",
 				image: "/adapt-and-flow.jpg",
 			},

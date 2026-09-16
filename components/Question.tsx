@@ -2,7 +2,7 @@ import { useI18n } from "./LocaleProvider";
 import { Fragment, useState } from "react";
 import Image from "next/image";
 import { quizQuestions } from "@/types/quiz";
-import type { FragranceType, QuizQuestion, AnsweOption } from "@/types/quiz";
+import type { FragranceType, QuizQuestion, AnswerOption } from "@/types/quiz";
 import clsx from "clsx";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -22,7 +22,7 @@ function Question({
 	onBack,
 }: QuestionProps) {
 	const { t } = useI18n();
-	const [answers, setAnswers] = useState<AnsweOption[]>([]);
+	const [answers, setAnswers] = useState<AnswerOption[]>([]);
 	const [selectedOption, setSelectedOption] = useState<FragranceType | null>(
 		null,
 	);
@@ -38,7 +38,7 @@ function Question({
 			scale: 1,
 		});
 
-		const answerOptions: AnsweOption[] = [
+		const answerOptions: AnswerOption[] = [
 			{
 				text: currentQuestion.options[0].text,
 				value: currentQuestion.options[0].value,
@@ -155,7 +155,7 @@ function Question({
 						{answers.map((answer, index) => (
 							<Answer
 								key={index}
-								imageField={answer.image || "/placeholder.jpg"}
+								imageField={answer.image}
 								value={answer.value}
 								question={t(answer.text)}
 								index={index}

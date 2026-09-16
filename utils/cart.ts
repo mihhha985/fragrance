@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import fragrances from "@/data/fragrance.json";
 
-export type CartItem = { uid: string; quantity: number };
+type CartItem = { uid: string; quantity: number };
 const key = "cote-royale-cart";
 const empty: CartItem[] = [];
 let cachedRaw: string | null | undefined;

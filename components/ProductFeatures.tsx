@@ -5,7 +5,7 @@ import { FadeIn } from "./FadeIn";
 import { formatPrice } from "@/utils/formatters";
 import { ButtonLink } from "./ButtonLink";
 
-function ProductFutures({ locale }: LocaleProps) {
+function ProductFeatures({ locale }: LocaleProps) {
 	const t = getTranslator(locale);
 	const price = 12000;
 	const formattedPrice = formatPrice(price, locale);
@@ -23,7 +23,7 @@ function ProductFutures({ locale }: LocaleProps) {
 				>
 					<Image
 						src="/grid-picture.jpg"
-						alt={t("Product Futures")}
+						alt={t("Product features")}
 						width={1000}
 						height={1000}
 						className="h-auto w-full object-cover"
@@ -51,12 +51,12 @@ function ProductFutures({ locale }: LocaleProps) {
 					>
 						<Image
 							src="/ignis-bottle.png"
-							alt={t("Product Futures")}
+							alt={t("Product features")}
 							width={1000}
 							height={1000}
 							className="mx-auto -mt-10 w-full -rotate-12 md:-mt-20"
 						/>
-						<div className="flex justify-between p-10 pt-4">
+						<div className="relative flex justify-between p-10 pt-4">
 							<div className="space-y-1 font-sans">
 								<h3 className="text-2xl">Ignis</h3>
 								<p className="mt-2 text-gray-400">{t("Eau de Parfum")}</p>
@@ -64,7 +64,7 @@ function ProductFutures({ locale }: LocaleProps) {
 									{t("Shop Now")}
 								</ButtonLink>
 							</div>
-							<p>{formattedPrice}</p>
+							<p className="absolute top-5 right-5">{formattedPrice}</p>
 						</div>
 					</FadeIn>
 				</div>
@@ -73,4 +73,4 @@ function ProductFutures({ locale }: LocaleProps) {
 	);
 }
 
-export { ProductFutures };
+export { ProductFeatures };

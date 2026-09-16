@@ -41,11 +41,6 @@ const NavIcons = ({ className = "", tabIndex, onClick }: NavIconsProps) => {
 	);
 };
 
-/*
-type NavBarProps = {
-  settings: Content.SettingsDocument;
-};
-*/
 export const NavBar = () => {
 	const { locale, t } = useI18n();
 	const pathname = usePathname();

@@ -1,6 +1,5 @@
 "use client";
 import { useI18n } from "@/components/LocaleProvider";
-import { localizedPath } from "@/utils/i18n";
 
 import Image from "next/image";
 import { useRef, useState, useSyncExternalStore } from "react";
@@ -8,12 +7,7 @@ import { useRouter } from "next/navigation";
 import { Bounded } from "@/components/Bounded";
 import { ButtonLink } from "@/components/ButtonLink";
 import { TransitionLink } from "@/components/TransitionLink";
-import {
-	clearCart,
-	removeFromCart,
-	setQuantity,
-	useCart,
-} from "@/utils/cart";
+import { clearCart, removeFromCart, setQuantity, useCart } from "@/utils/cart";
 import { formatPrice } from "@/utils/formatters";
 import fragrances from "@/data/fragrance.json";
 import { HiOutlineTrash } from "react-icons/hi2";
@@ -31,6 +25,7 @@ export default function CartPage() {
 	const router = useRouter();
 	const submitting = useRef(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitError, setSubmitError] = useState("");
 	const items = cart.flatMap((item) => {
 		const product = fragrances.find((product) => product.uid === item.uid);
 		return product ? [{ ...product, quantity: item.quantity }] : [];
@@ -66,7 +61,7 @@ export default function CartPage() {
 				</div>
 			) : (
 				<div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)]">
-					<div className="space-y-4">
+					<div className="space-y-4 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto lg:pr-2">
 						{items.map((item) => (
 							<div
 								key={item.uid}
@@ -146,19 +141,54 @@ export default function CartPage() {
 					</div>
 					<form
 						className="h-fit space-y-6 border border-white/10 bg-white/5 p-6 md:p-10"
-						onSubmit={(event) => {
+						onSubmit={async (event) => {
 							event.preventDefault();
 							if (submitting.current || items.length === 0) return;
 							submitting.current = true;
 							setIsSubmitting(true);
-							clearCart();
-							router.replace(localizedPath("/thank-you", locale));
+							setSubmitError("");
+
+							const formData = new FormData(event.currentTarget);
+							try {
+								const [response] = await Promise.all([
+									fetch("/api/orders", {
+										method: "POST",
+										headers: { "Content-Type": "application/json" },
+										body: JSON.stringify({
+											items: items.map(({ uid, quantity }) => ({
+												uid,
+												quantity,
+											})),
+											delivery: {
+												name: formData.get("name"),
+												email: formData.get("email"),
+												phone: formData.get("phone"),
+												address: formData.get("address"),
+												city: formData.get("city"),
+												postalCode: formData.get("postalCode"),
+												country: formData.get("country"),
+											},
+										}),
+									}),
+									new Promise((resolve) => setTimeout(resolve, 900)),
+								]);
+								if (!response.ok) throw new Error("Order request failed");
+
+								clearCart();
+								router.replace("/thank");
+							} catch {
+								submitting.current = false;
+								setIsSubmitting(false);
+								setSubmitError(
+									t("We couldn't place your order. Please try again."),
+								);
+							}
 						}}
 					>
 						<h2 className="text-4xl">{t("Guest checkout")}</h2>
 						<p className="text-sm leading-relaxed text-gray-300">
 							{t(
-								"No account needed. This is a demo order: no payment, delivery or notifications. Your details are not saved or sent.",
+								"No account is needed. Your order and delivery details will be recorded for processing. No automatic notification will be sent.",
 							)}
 						</p>
 						<fieldset disabled={isSubmitting} className="space-y-5">
@@ -166,13 +196,25 @@ export default function CartPage() {
 							{[
 								{ name: "name", label: "Full name", autoComplete: "name" },
 								{
+									name: "email",
+									label: "Email address",
+									autoComplete: "email",
+									type: "email",
+								},
+								{
+									name: "phone",
+									label: "Phone number",
+									autoComplete: "tel",
+									type: "tel",
+								},
+								{
 									name: "address",
 									label: "Street address",
 									autoComplete: "street-address",
 								},
 								{ name: "city", label: "City", autoComplete: "address-level2" },
 								{
-									name: "postal",
+									name: "postalCode",
 									label: "Postal code",
 									autoComplete: "postal-code",
 								},
@@ -185,6 +227,7 @@ export default function CartPage() {
 								<label key={field.name} className="block text-sm tracking-wide">
 									{t(field.label)}
 									<input
+										type={field.type ?? "text"}
 										name={field.name}
 										autoComplete={field.autoComplete}
 										required
@@ -195,12 +238,24 @@ export default function CartPage() {
 								</label>
 							))}
 						</fieldset>
+						{submitError && (
+							<p role="alert" className="text-sm text-red-300">
+								{submitError}
+							</p>
+						)}
 						<button
 							type="submit"
 							disabled={isSubmitting || !items.length}
-							className="w-full cursor-pointer bg-neutral-50 px-6 py-4 font-bold tracking-wider text-neutral-950 uppercase transition-colors hover:bg-neutral-300 disabled:opacity-50"
+							aria-busy={isSubmitting}
+							className="flex w-full cursor-pointer items-center justify-center gap-3 bg-neutral-50 px-6 py-4 font-bold tracking-wider text-neutral-950 uppercase transition-colors hover:bg-neutral-300 disabled:cursor-wait disabled:opacity-70"
 						>
-							{isSubmitting ? t("Completing order…") : t("Place demo order")}
+							{isSubmitting && (
+								<span
+									aria-hidden="true"
+									className="size-5 animate-spin rounded-full border-2 border-neutral-950/25 border-t-neutral-950 motion-reduce:animate-none"
+								/>
+							)}
+							{isSubmitting ? t("Completing order…") : t("Place order")}
 						</button>
 					</form>
 				</div>
