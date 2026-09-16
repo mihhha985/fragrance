@@ -5,7 +5,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { isLocale, localizedPath } from "@/utils/i18n";
+import { isLocale, localizedPath, locales } from "@/utils/i18n";
 import { useCart } from "@/utils/cart";
 import { HiBars3, HiShoppingBag, HiXMark } from "react-icons/hi2";
 import data from "@/data/fragrance.json";
@@ -16,6 +16,10 @@ type NavIconsProps = {
 	tabIndex?: number;
 	onClick?: () => void;
 };
+
+function persistLocale(locale: string) {
+	document.cookie = `locale=${locale}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
+}
 
 const NavIcons = ({ className = "", tabIndex, onClick }: NavIconsProps) => {
 	const { t } = useI18n();
@@ -62,6 +66,16 @@ export const NavBar = () => {
 	}, [isDrawerOpen]);
 
 	const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+	const switchLocale = (next: string) => {
+		if (!isLocale(next) || next === locale) return;
+		persistLocale(next);
+		setIsDrawerOpen(false);
+		router.replace(
+			localizedPath(pathname, next) +
+				window.location.search +
+				window.location.hash,
+		);
+	};
 
 	const fragrances = data as Fragrance[];
 
@@ -148,6 +162,24 @@ export const NavBar = () => {
 							{item.title}
 						</TransitionLink>
 					))}
+					<div className="space-y-1 pt-4">
+						<TransitionLink
+							href="/science"
+							onClick={() => setIsDrawerOpen(false)}
+							className="nav-link"
+							tabIndex={isDrawerOpen ? 0 : -1}
+						>
+							{t("Science")}
+						</TransitionLink>
+						<TransitionLink
+							href="/our-story"
+							onClick={() => setIsDrawerOpen(false)}
+							className="nav-link"
+							tabIndex={isDrawerOpen ? 0 : -1}
+						>
+							{t("Our Story")}
+						</TransitionLink>
+					</div>
 					<div className="pt-4 md:hidden">
 						<NavIcons
 							onClick={() => setIsDrawerOpen(false)}
@@ -155,35 +187,35 @@ export const NavBar = () => {
 							tabIndex={isDrawerOpen ? 0 : -1}
 						/>
 					</div>
-					<label
-						className="block border-t border-white/10 pt-6 text-sm tracking-wide"
-						htmlFor="language-select"
-					>
-						{t("Language")}
-						<select
-							id="language-select"
-							value={locale}
-							className="mt-3 w-full border border-white/30 bg-neutral-950 px-3 py-3 text-white focus:border-white"
-							onChange={(event) => {
-								const next = event.target.value;
-								if (!isLocale(next)) return;
-								document.cookie = `locale=${next}; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
-								setIsDrawerOpen(false);
-								router.push(
-									localizedPath(pathname, next) +
-										window.location.search +
-										window.location.hash,
-								);
-							}}
+					<div className="pt-6">
+						<p className="mb-3 text-sm tracking-wide text-white/70">
+							{t("Language")}
+						</p>
+						<div
+							className="grid grid-cols-2 border border-white/25 p-1"
+							role="group"
+							aria-label={t("Language")}
 						>
-							<option value="ru" lang="ru">
-								Русский
-							</option>
-							<option value="en" lang="en">
-								English
-							</option>
-						</select>
-					</label>
+							{locales.map((item) => (
+								<button
+									key={item}
+									type="button"
+									lang={item}
+									onClick={() => switchLocale(item)}
+									tabIndex={isDrawerOpen ? 0 : -1}
+									aria-pressed={locale === item}
+									className={clsx(
+										"px-3 py-2 text-sm font-semibold tracking-[0.16em] uppercase transition-colors",
+										locale === item
+											? "bg-white text-black"
+											: "text-white/70 hover:bg-white/10 hover:text-white",
+									)}
+								>
+									{item}
+								</button>
+							))}
+						</div>
+					</div>
 				</nav>
 			</div>
 		</header>

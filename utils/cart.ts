@@ -89,6 +89,10 @@ export function setQuantity(uid: string, quantity: number) {
 	);
 }
 
+export function removeFromCart(uid: string) {
+	save(readCart().filter((item) => item.uid !== uid));
+}
+
 export function clearCart() {
 	save([]);
 }

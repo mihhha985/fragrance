@@ -2,6 +2,7 @@ import { getTranslator, type LocaleProps } from "@/utils/i18n";
 import { ReactNode } from "react";
 import { TransitionLink as Link } from "./TransitionLink";
 import Image from "next/image";
+import { SiFacebook, SiInstagram, SiX } from "react-icons/si";
 
 export const Footer = ({ locale }: LocaleProps) => {
 	const t = getTranslator(locale);
@@ -19,15 +20,21 @@ export const Footer = ({ locale }: LocaleProps) => {
 					</NavGroup>
 
 					<NavGroup title={t("About")}>
-						<NavLink href="#">{t("Science")}</NavLink>
-						<NavLink href="#">{t("Our Story")}</NavLink>
-						<NavLink href="#">Côte Royale</NavLink>
+						<NavLink href="/science">{t("Science")}</NavLink>
+						<NavLink href="/our-story">{t("Our Story")}</NavLink>
+						<NavLink href="/">Côte Royale</NavLink>
 					</NavGroup>
 
 					<NavGroup title={t("Social")}>
-						<NavLink href="#">Instagram</NavLink>
-						<NavLink href="#">X (Twitter)</NavLink>
-						<NavLink href="#">Facebook</NavLink>
+						<SocialLink href="https://www.instagram.com/" label="Instagram">
+							<SiInstagram aria-hidden="true" />
+						</SocialLink>
+						<SocialLink href="https://x.com/" label="X (Twitter)">
+							<SiX aria-hidden="true" />
+						</SocialLink>
+						<SocialLink href="https://www.facebook.com/" label="Facebook">
+							<SiFacebook aria-hidden="true" />
+						</SocialLink>
 					</NavGroup>
 				</div>
 
@@ -55,12 +62,12 @@ export const Footer = ({ locale }: LocaleProps) => {
 						className="flex flex-wrap justify-center gap-6 text-sm text-gray-400"
 					>
 						<li>
-							<Link href="#" className="hover:text-white">
+							<Link href="/terms" className="hover:text-white">
 								{t("Terms & conditions")}
 							</Link>
 						</li>
 						<li>
-							<Link href="#" className="hover:text-white">
+							<Link href="/privacy" className="hover:text-white">
 								{t("Privacy Policy")}
 							</Link>
 						</li>
@@ -104,3 +111,22 @@ const NavLink = ({ href, children }: NavLinkProps) => {
 		</li>
 	);
 };
+
+const SocialLink = ({
+	href,
+	label,
+	children,
+}: NavLinkProps & { label: string }) => (
+	<li>
+		<a
+			href={href}
+			aria-label={label}
+			target="_blank"
+			rel="noreferrer"
+			className="inline-flex items-center gap-3 text-gray-400 transition-colors hover:text-white"
+		>
+			{children}
+			<span>{label}</span>
+		</a>
+	</li>
+);

@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# prisma composer
+/.prisma-composer/
+
 # production
 /build
 

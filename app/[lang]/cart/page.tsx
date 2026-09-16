@@ -8,9 +8,15 @@ import { useRouter } from "next/navigation";
 import { Bounded } from "@/components/Bounded";
 import { ButtonLink } from "@/components/ButtonLink";
 import { TransitionLink } from "@/components/TransitionLink";
-import { clearCart, setQuantity, useCart } from "@/utils/cart";
+import {
+	clearCart,
+	removeFromCart,
+	setQuantity,
+	useCart,
+} from "@/utils/cart";
 import { formatPrice } from "@/utils/formatters";
 import fragrances from "@/data/fragrance.json";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 const subscribe = () => () => {};
 
@@ -39,7 +45,14 @@ export default function CartPage() {
 			<p className="mb-4 text-sm tracking-[0.2em] text-gray-300 uppercase">
 				{t("Côte Royale · Your selection")}
 			</p>
-			<h1 className="mb-10 text-5xl md:text-7xl">{t("Your Bag")}</h1>
+			<div className="mb-10 flex items-end justify-between gap-6 border-b border-white/10 pb-6">
+				<h1 className="text-5xl md:text-7xl">{t("Your Bag")}</h1>
+				{ready && items.length > 0 && (
+					<p className="shrink-0 text-sm text-gray-400">
+						{items.reduce((sum, item) => sum + item.quantity, 0)} {t("items")}
+					</p>
+				)}
+			</div>
 			{!ready ? (
 				<p role="status">{t("Loading your bag…")}</p>
 			) : items.length === 0 && !isSubmitting ? (
@@ -52,12 +65,12 @@ export default function CartPage() {
 					</ButtonLink>
 				</div>
 			) : (
-				<div className="grid gap-12 lg:grid-cols-2">
-					<div>
+				<div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)]">
+					<div className="space-y-4">
 						{items.map((item) => (
 							<div
 								key={item.uid}
-								className="flex gap-4 border-t border-white/10 py-6 sm:gap-6"
+								className="group relative flex gap-4 border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-white/20 sm:gap-6 sm:p-6"
 							>
 								<Image
 									src={`/${item.uid}-bottle.png`}
@@ -66,7 +79,7 @@ export default function CartPage() {
 									height={150}
 									className="h-36 w-24 object-contain sm:w-28"
 								/>
-								<div className="min-w-0 flex-1 space-y-3">
+								<div className="min-w-0 flex-1 space-y-3 pr-10">
 									<TransitionLink
 										href={`/fragrance/${item.uid}`}
 										className="font-display text-3xl"
@@ -76,7 +89,7 @@ export default function CartPage() {
 									<p className="text-sm text-gray-400">
 										{t("Eau de Parfum ·")} {formatPrice(item.price, locale)}
 									</p>
-									<div className="flex flex-wrap items-center gap-4">
+									<div className="flex flex-wrap items-center gap-4 pt-2">
 										<div className="flex items-center border border-white/30">
 											<button
 												type="button"
@@ -103,22 +116,26 @@ export default function CartPage() {
 												+
 											</button>
 										</div>
-										<button
-											type="button"
-											disabled={isSubmitting}
-											onClick={() => setQuantity(item.uid, 0)}
-											className="text-sm text-gray-400 underline hover:text-white"
-										>
-											{t("Remove")} {item.title}
-										</button>
+										<p className="ml-auto font-semibold">
+											{formatPrice(item.price * item.quantity, locale)}
+										</p>
 									</div>
-									<p>{formatPrice(item.price * item.quantity, locale)}</p>
 								</div>
+								<button
+									type="button"
+									disabled={isSubmitting}
+									onClick={() => removeFromCart(item.uid)}
+									aria-label={`${t("Remove")} ${item.title}`}
+									className="absolute top-4 right-4 p-2 text-gray-400 transition-colors hover:bg-white/10 hover:text-white disabled:opacity-40 sm:top-6 sm:right-6"
+									title={`${t("Remove")} ${item.title}`}
+								>
+									<HiOutlineTrash size={20} aria-hidden="true" />
+								</button>
 							</div>
 						))}
 						<div
 							aria-live="polite"
-							className="flex justify-between border-t border-white/30 py-6 text-2xl"
+							className="mt-6 flex justify-between border-t border-white/30 py-6 text-2xl"
 						>
 							<span>{t("Total")}</span>
 							<span>{formatPrice(total, locale)}</span>

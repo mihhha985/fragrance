@@ -40,7 +40,7 @@ html[lang="ru"] .font-display {
 
 @layer components {
 	.nav-link {
-		@apply block border-b border-white/10 py-2 text-xl font-semibold tracking-wide text-white uppercase hover:text-gray-300;
+		@apply block py-2 text-xl font-semibold tracking-wide text-white uppercase transition-colors hover:text-gray-300;
 	}
 	.menu-icon {
 		@apply cursor-pointer p-2 text-white transition-colors duration-300 hover:bg-white/20;
