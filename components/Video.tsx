@@ -10,11 +10,15 @@ function Video({ locale }: LocaleProps) {
 				rootMargin="1500px"
 				className="relative h-screen overflow-hidden md:aspect-video md:h-auto"
 			>
-				<iframe
+				<video
 					title={t("Côte Royale Video Reel")}
-					src={`https://www.youtube-nocookie.com/embed/eTEsWseiDdg?autoplay=1&mute=1&loop=1&playlist=eTEsWseiDdg`}
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					className="pointer-events-none absolute left-1/2 aspect-video h-full -translate-x-1/2"
+					src="/cote-royale-reel.mp4"
+					autoPlay
+					muted
+					loop
+					playsInline
+					preload="metadata"
+					className="pointer-events-none absolute left-1/2 aspect-video h-full max-w-none -translate-x-1/2"
 				/>
 			</Lazy>
 		</section>
