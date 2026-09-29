@@ -19,7 +19,7 @@ The App Router follows Next.js's internationalization guide: pages live under `a
 
 The menu's language selector preserves the current path, query and fragment and remembers the choice for one year. Both languages share the same cart. Checkout validates and records orders on the server without sending an automatic notification.
 
-English copy is used as translation keys; Russian translations live in `data/ru.json`. Server components use `getTranslator(locale)`, and interactive components read the locale through `useI18n()`. Use `TransitionLink` for internal links and `localizedPath()` for programmatic navigation. Product names and the USD currency remain unchanged.
+English copy is used as translation keys; Russian translations live in `data/ru.json`. Server components use `getTranslator(locale)`, and interactive components read the locale through `useI18n()`. Use `TransitionLink` for internal links and `localizedPath()` for programmatic navigation. Product names remain unchanged. English prices are in USD; Russian prices and orders are converted to RUB at a fixed rate of 85 RUB per USD.
 
 Run `node --test tests/i18n.test.mjs` to check locale routing, language preferences and translation coverage.
 

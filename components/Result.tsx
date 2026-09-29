@@ -75,7 +75,7 @@ export const Result = ({ votes, onRetakeQuiz }: ResultProps) => {
 				</p>
 			</div>
 
-			<div className="result-item group mx-auto max-w-md translate-y-5 text-left opacity-100">
+			<div className="result-item group mx-auto flow-root max-w-md translate-y-5 text-left opacity-100">
 				<div className="mt-40 mb-6 grid bg-neutral-200/10 transition-colors duration-700 group-hover:bg-neutral-200/20">
 					<Image
 						src={`/${winner.toLowerCase()}-bottle.png`}

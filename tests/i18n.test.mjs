@@ -30,8 +30,25 @@ function load(file, imports) {
 }
 
 const i18n = load("utils/i18n.ts", { "@/data/ru.json": ru });
+const { formatPrice, priceForLocale } = load("utils/formatters.ts", {});
 const { proxy } = load("proxy.ts", { "@/utils/i18n": i18n });
 const { NextRequest } = loadDependency("next/server");
+
+test("Russian prices use 85 rubles per dollar while English prices stay in USD", () => {
+	for (const [dollarsInCents, rubles] of [
+		[11000, 9350],
+		[12000, 10200],
+		[13000, 11050],
+	]) {
+		assert.equal(priceForLocale(dollarsInCents, "ru"), rubles * 100);
+		assert.equal(priceForLocale(dollarsInCents, "en"), dollarsInCents);
+		assert.equal(
+			formatPrice(dollarsInCents, "ru").replace(/\s/g, " "),
+			`${new Intl.NumberFormat("ru-RU").format(rubles).replace(/\s/g, " ")} ₽`,
+		);
+	}
+	assert.equal(formatPrice(12000, "en"), "$120");
+});
 
 test("locale switching preserves route, query and fragment without changing external links", () => {
 	assert.equal(

@@ -2,6 +2,8 @@ import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import fragrances from "@/data/fragrance.json";
+import { priceForLocale } from "@/utils/formatters";
+import { isLocale } from "@/utils/i18n";
 
 export const runtime = "nodejs";
 
@@ -99,7 +101,8 @@ export async function POST(request: Request) {
 
 	const delivery = parseDelivery(body.delivery);
 	const items = parseItems(body.items);
-	if (!delivery || !items) {
+	const locale = body.locale;
+	if (!delivery || !items || typeof locale !== "string" || !isLocale(locale)) {
 		return NextResponse.json(
 			{ error: "Please check the order details." },
 			{ status: 400 },
@@ -108,12 +111,13 @@ export async function POST(request: Request) {
 
 	const orderItems = items.map((item) => {
 		const product = fragrances.find((entry) => entry.uid === item.uid)!;
+		const unitPrice = priceForLocale(product.price, locale);
 		return {
 			uid: product.uid,
 			title: product.title,
 			quantity: item.quantity,
-			unitPrice: product.price,
-			lineTotal: product.price * item.quantity,
+			unitPrice,
+			lineTotal: unitPrice * item.quantity,
 		};
 	});
 	const total = orderItems.reduce((sum, item) => sum + item.lineTotal, 0);
@@ -122,7 +126,7 @@ export async function POST(request: Request) {
 		id,
 		createdAt: new Date().toISOString(),
 		status: "received",
-		currency: "USD",
+		currency: locale === "ru" ? "RUB" : "USD",
 		items: orderItems,
 		total,
 		delivery,
